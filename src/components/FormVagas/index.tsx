@@ -1,31 +1,30 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import styles from './FormVagas.module.css'
+import * as S from './styles'
+import { RootReducer } from '../../store'
+import { alteraTermo } from '../../store/reducers/vaga'
 
-type Props = {
-  aoPesquisar: (termo: string) => void
-}
-
-const FormVagas = ({ aoPesquisar }: Props) => {
-  const [termo, setTermo] = useState<string>('')
+const FormVagas = () => {
+  const dispatch = useDispatch()
+  const { termo } = useSelector((state: RootReducer) => state.termo)
 
   const aoEnviarForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    aoPesquisar(termo.toLocaleLowerCase())
+    alteraTermo(termo.toLocaleLowerCase())
   }
 
   return (
-    <form className={styles.form} onSubmit={aoEnviarForm}>
-      <input
-        className={styles.campo}
+    <S.Formulario onSubmit={aoEnviarForm}>
+      <S.Campo
         placeholder="Front-end, fullstack, node, design"
-        onChange={(e) => setTermo(e.target.value)}
+        value={termo}
+        onChange={(evento) => dispatch(alteraTermo(evento.target.value))}
         type="search"
       />
-      <button className={styles.btnPesquisar} type="submit">
-        Pesquisar
-      </button>
-    </form>
+      <S.BotaoPesquisar type="submit">Pesquisar</S.BotaoPesquisar>
+    </S.Formulario>
   )
 }
+
 export default FormVagas

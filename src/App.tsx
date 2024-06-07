@@ -1,18 +1,20 @@
+import { Provider } from 'react-redux'
 import Header from './components/Cabecalho'
 import Hero from './components/Hero'
 import ListaVagas from './containers/ListaVagas'
-
-import './global.css'
+import EstiloGlobal, { Container } from './styles'
+import store from './store'
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
+      <EstiloGlobal />
       <Header />
       <Hero />
-      <div className="container">
+      <Container>
         <ListaVagas />
-      </div>
-    </>
+      </Container>
+    </Provider>
   )
 }
 
